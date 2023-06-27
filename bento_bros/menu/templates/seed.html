@@ -37,50 +37,46 @@
     >
       <div style="width: 20%">
         <h1>Appetizers</h1>
-        <ul style="padding: 0">
-          {% block content %} {% for item in appetizers %}
-          <li style="list-style-type: none">
-            <h3>
-              <a
-                style="text-decoration: none; color: brown"
-                href="http://127.0.0.1:8000/seeditem/{{ forloop.counter0 }}"
-                >{{ item.name }} {{ item.price }}</a
-              >
-            </h3>
-          </li>
-          {% endfor %} {% endblock %}
-       
+        {% block content %} {% for item in appetizers %}
+        <li style="list-style-type: none">
+          <h3>
+            <a
+              style="text-decoration: none; color: brown"
+              href="{% url 'appetizer_item' item.id %}"
+              >{{ item.name }} {{ item.price }}</a
+            >
+          </h3>
+        </li>
+        {% endfor %} {% endblock %}
       </div>
       <div style="width: 20%">
         <h1>Main Course</h1>
-        
-          {% for item in main_course %}
-          <li style="list-style-type: none">
-            <h3>
-              <a
-                style="text-decoration: none; color: brown"
-                href="http://127.0.0.1:8000/seeditem/{{ forloop.counter0 }}"
-                >{{ item.name }} {{ item.price }}</a
-              >
-            </h3>
-          </li>
-          {% endfor %}
-        
+
+        {% for item in main_course %}
+        <li style="list-style-type: none">
+          <h3>
+            <a
+              style="text-decoration: none; color: brown"
+              href="{% url 'main_item' item.id %}"
+              >{{ item.name }} {{ item.price }}</a
+            >
+          </h3>
+        </li>
+        {% endfor %}
       </div>
       <div style="width: 20%">
         <h1>Desserts</h1>
-          {% for item in desserts %}
-          <li style="list-style-type: none">
-            <h3>
-              <a
-                style="text-decoration: none; color: brown"
-                href="http://127.0.0.1:8000/seeditem/{{ forloop.counter0 }}"
-                >{{ item.name }} {{ item.price }}</a
-              >
-            </h3>
-          </li>
-          {% endfor %}
-        </ul>
+        {% for item in desserts %}
+        <li style="list-style-type: none">
+          <h3>
+            <a
+              style="text-decoration: none; color: brown"
+              href="{% url 'dessert_item' item.id %}"
+              >{{ item.name }} {{ item.price }}</a
+            >
+          </h3>
+        </li>
+        {% endfor %}
       </div>
     </div>
   </body>

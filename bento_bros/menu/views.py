@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from menu.models import Appetizer, MainCourse, Dessert
 
 # Create your views here.
@@ -121,46 +121,76 @@ menu = [
 def home_page(request):
     return render(request, "home_page.html", {'menu': menu})
 
+
 def item(request, index):
     item = menu[index]
     return render(request, 'item_description.html', {'item': item})
 
-def seed_item(request, index):
-    food_item = menu[index] 
-    food_name = food_item.name
-    if food_name == "Matcha Green Tea Ice Cream" or food_name == "Mochi Ice Cream" or food_name == "Dorayaki":
-        index = index + 13
-    elif food_name != "Gyoza" and food_name != "Edamame" and food_name != "Agedashi Tofu" and food_name != "Takoyaki":
-        index = index + 4
-    return render(request, 'seed_item.html', {'item': food_item})
+
+def appetizer_item(request, appetizer_item_id):
+    appetizer_item = get_object_or_404(Appetizer, id=appetizer_item_id)
+    return render(request, "seed_item.html", {"item": appetizer_item})
 
 
+def main_item(request, main_item_id):
+    main_item = get_object_or_404(MainCourse, id=main_item_id)
+    return render(request, "seed_item.html", {"item": main_item})
 
-appetizers = [
-    Appetizer(name="Gyoza", price=6.99),
-    Appetizer(name="Edamame", price=5.99),
-    Appetizer(name="Agedashi Tofu", price=7.99),
-    Appetizer(name="Takoyaki", price=8.99)
-]
-Appetizer.objects.bulk_create(appetizers)
-main_course = [
-    MainCourse(name="Teriyaki Chicken", price=12.99),
-    MainCourse(name="Sushi Platter", price=14.99),
-    MainCourse(name="Beef Yankiniku", price=15.99),
-    MainCourse(name="Vegetable Tempura", price=13.99),
-    MainCourse(name="Tonkatsu", price=11.99),
-    MainCourse(name="Unagi Don", price=16.99),
-    MainCourse(name="Ramen", price=18.99),
-    MainCourse(name="Chicken Katsu Curry", price=12.99),
-    MainCourse(name="Sashimi Deluxe", price=17.99),
-]
-MainCourse.objects.bulk_create(main_course)
-desserts = [
-    Dessert(name="Matcha Green Tea Ice Cream", price=6.99),
-    Dessert(name="Mochi Ice Cream", price=7.99),
-    Dessert(name="Dorayaki", price=5.99),
-]
-Dessert.objects.bulk_create(desserts)
+
+def dessert_item(request, dessert_item_id):
+    dessert_item = get_object_or_404(Dessert, id=dessert_item_id)
+    return render(request, "seed_item.html", {"item": dessert_item})
+
 
 def seed(request):
-    return render(request, 'seed.html', {'appetizers': appetizers, 'main_course': main_course, 'desserts': desserts})
+    if not Appetizer.objects.exists():
+        appetizers = [
+            Appetizer(name="Gyoza", price=6.99,
+                      description="Delicious pan-fried dumplings filled with seasoned ground pork and vegetables. Served with a tangy soy dipping sauce."),
+            Appetizer(name="Edamame", price=5.99,
+                      description="Steamed young soybeans lightly seasoned with sea salt. A classic and healthy Japanese appetizer."),
+            Appetizer(name="Agedashi Tofu", price=7.99,
+                      description="Deep-fried tofu served in a flavorful dashi broth with grated daikon, green onions, and bonito flakes."),
+            Appetizer(name="Takoyaki", price=8.99,
+                      description="Savory octopus-filled batter balls cooked to perfection and topped with takoyaki sauce, mayonnaise, and bonito flakes.")
+        ]
+        Appetizer.objects.bulk_create(appetizers)
+    appetizer_list = Appetizer.objects.all()
+
+    if not MainCourse.objects.exists():
+        main_course = [
+            MainCourse(name="Teriyaki Chicken", price=12.99,
+                       description="Grilled chicken marinated in a sweet and savory teriyaki sauce. Served with steamed rice and a side of mixed vegetables."),
+            MainCourse(name="Sushi Platter", price=14.99,
+                       description="A delightful assortment of fresh nigiri and maki sushi. Chef's selection may include tuna, salmon, shrimp, and vegetable rolls."),
+            MainCourse(name="Beef Yankiniku", price=15.99,
+                       description="Thinly sliced beef marinated in a flavorful soy-based sauce and grilled to perfection. Served with a side of rice and kimchi."),
+            MainCourse(name="Vegetable Tempura", price=13.99,
+                       description="Assorted lightly battered and deep-fried seasonal vegetables. Served with a dipping sauce and steamed rice."),
+            MainCourse(name="Tonkatsu", price=11.99,
+                       description="Crispy breaded and deep-fried pork cutlet served with shredded cabbage, tonkatsu sauce, and steamed rice."),
+            MainCourse(name="Unagi Don", price=16.99,
+                       description="Grilled freshwater eel glazed with a sweet soy-based sauce. Served over a bed of steamed rice and garnished with pickles."),
+            MainCourse(name="Ramen", price=18.99,
+                       description="A comforting bowl of flavorful broth, ramen noodles, and various toppings such as chashu pork, bamboo shoots, and a soft-boiled egg."),
+            MainCourse(name="Chicken Katsu Curry",
+                       price=12.99, description="Deep-fried breaded chicken cutlet served with Japanese curry sauce and steamed rice. A perfect combination of crispy and savory flavors."),
+            MainCourse(name="Sashimi Deluxe", price=17.99,
+                       description="A premium selection of fresh sashimi, including tuna, salmon, yellowtail, and octopus. Served with wasabi, soy sauce, and pickled ginger."),
+        ]
+        MainCourse.objects.bulk_create(main_course)
+    maincourseList = MainCourse.objects.all()
+
+    if not Dessert.objects.exists():
+        desserts = [
+            Dessert(name="Matcha Green Tea Ice Cream",
+                    price=6.99, description="Creamy and refreshing matcha green tea-flavored ice cream. A perfect ending to your Japanese meal."),
+            Dessert(name="Mochi Ice Cream", price=7.99,
+                    description="Chewy mochi rice cake filled with various flavors of ice cream, such as strawberry, mango, and green tea."),
+            Dessert(name="Dorayaki", price=5.99,
+                    description="Sweet red bean paste sandwiched between two fluffy pancakes. A popular traditional Japanese dessert."),
+        ]
+        Dessert.objects.bulk_create(desserts)
+    dessertList = Dessert.objects.all()
+
+    return render(request, 'seed.html', {'appetizers': appetizer_list, 'main_course': maincourseList, 'desserts': dessertList})
