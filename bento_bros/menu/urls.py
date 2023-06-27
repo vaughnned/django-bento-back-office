@@ -15,19 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from menu.views import home_page, item, appetizer_item, seed, main_item, dessert_item
+from django.urls import path
+from menu.views import appetizer_records, main_records, dessert_records, delete_record
+
+app_name = "menu"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', home_page),
-    path('item/<int:index>', item),
-    path('seed/', seed),
-    path('appetizer_item/<int:appetizer_item_id>',
-         appetizer_item, name="appetizer_item"),
-    path('main_item/<int:main_item_id>',
-         main_item, name="main_item"),
-    path('dessert_item/<int:dessert_item_id>',
-         dessert_item, name="dessert_item"),
-    path('backoffice/', include("menu.urls")),
+    path('app/', appetizer_records, name="app_record"),
+    path('main/', main_records, name="main_record"),
+    path('dessert/', dessert_records, name="dessert_record"),
+    path('app/delete_app/<int:appetizer_id>', delete_record, name="delete_app")
 ]

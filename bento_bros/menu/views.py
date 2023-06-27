@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from menu.models import Appetizer, MainCourse, Dessert
 
 # Create your views here.
@@ -140,6 +140,29 @@ def main_item(request, main_item_id):
 def dessert_item(request, dessert_item_id):
     dessert_item = get_object_or_404(Dessert, id=dessert_item_id)
     return render(request, "seed_item.html", {"item": dessert_item})
+
+
+def appetizer_records(request):
+    app_record = Appetizer.objects.all()
+    return render(request, 'back_office.html', {"app_records": app_record})
+
+
+def delete_record(request, appetizer_id):
+    appetizer_record = get_object_or_404(Appetizer, id=appetizer_id)
+
+    if request.method == 'DELETE':
+        appetizer_record.delete()
+        return redirect('app/')
+
+
+def main_records(request):
+    main_record = MainCourse.objects.all()
+    return render(request, 'back_office.html', {"main_records": main_record})
+
+
+def dessert_records(request):
+    dessert_record = Dessert.objects.all()
+    return render(request, 'back_office.html', {"dessert_records": dessert_record})
 
 
 def seed(request):

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1><a href="../app">Appetizers</a></h1>
+    {% for appetizer in app_records %}
+    <div>{{ appetizer.name }}</div>
+    <button
+      type="submit"
+      name="delete"
+      onclick="location.href='../delete_app/<int:appetizer_id>'"
+    >
+      Delete
+    </button>
+    {% endfor %}
+
+    <h1><a href="../main">Main Course</a></h1>
+    {% for main_course in main_records %}
+    <div>{{ main_course.name }}</div>
+    {% endfor %}
+
+    <h1><a href="../dessert">Desserts</a></h1>
+    {% for dessert in dessert_records %}
+    <div>{{ dessert.name }}</div>
+    {% endfor %}
+  </body>
+</html>
