@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from menu.views import appetizer_records, main_records, dessert_records, delete_app, delete_main, delete_dessert, update_app, update_main, update_dessert
+from menu.views import appetizer_records, main_records, dessert_records, delete_app, delete_main, delete_dessert, update_app, update_main, update_dessert, create_dessert, create_main, create_app
 
 app_name = "menu"
 
@@ -37,4 +37,10 @@ urlpatterns = [
          update_main, name="update_main"),
     path('update_dessert/<int:dessert_record_id>',
          update_dessert, name="update_dessert"),
+    path('create_dessert/',
+         create_dessert, name="create_dessert"),
+    path('create_main/',
+         create_main, name="create_main"),
+    path('create_app/',
+         create_app, name="create_app"),
 ]

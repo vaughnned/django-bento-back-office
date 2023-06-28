@@ -175,6 +175,20 @@ def update_app(request, appetizer_record_id):
     return render(request, 'edit.html', context)
 
 
+def create_app(request):
+
+    if request.method == 'POST':
+        form = AppForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = AppForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'create.html', context)
+
+
 def main_records(request):
     main_record = MainCourse.objects.all()
     return render(request, 'back_office.html', {"main_records": main_record})
@@ -204,6 +218,20 @@ def update_main(request, main_record_id):
         'main_list': MainCourse.objects.all()
     }
     return render(request, 'edit.html', context)
+
+
+def create_main(request):
+
+    if request.method == 'POST':
+        form = MainForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = MainForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'create.html', context)
 
 
 def dessert_records(request):
@@ -236,6 +264,20 @@ def update_dessert(request, dessert_record_id):
         'dessert_list': Dessert.objects.all()
     }
     return render(request, 'edit.html', context)
+
+
+def create_dessert(request):
+
+    if request.method == 'POST':
+        form = DessertForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = DessertForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'create.html', context)
 
 
 def seed(request):

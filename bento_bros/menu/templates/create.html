@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create</title>
+  </head>
+  <body>
+    <h1><a href="../app">BACK</a></h1>
+    <h1>Create New Appetizer</h1>
+    <form action="{% url 'menu:create_app' %}" method="POST">
+      {% csrf_token %} {{ form }}
+      <button type="submit">Create</button>
+    </form>
+    <h1>Create New Main Course</h1>
+    <form action="{% url 'menu:create_main' %}" method="POST">
+      {% csrf_token %} {{ form }}
+      <button type="submit">Create</button>
+    </form>
+
+    <h1>Create New Dessert</h1>
+    <form action="{% url 'menu:create_dessert' %}" method="POST">
+      {% csrf_token %} {{ form }}
+      <button type="submit">Create</button>
+    </form>
+  </body>
+</html>
