@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1><a href="../app">BACK</a></h1>
+    {% for appetizer in app_list %}
+    <form action="{% url 'menu:update_app' appetizer.id %}" method="POST">
+      {% csrf_token %}
+      <h2>{{ appetizer.name }}</h2>
+      {{ form }}
+      <button type="submit">Update</button>
+    </form>
+    {% endfor %} {% for main in main_list %}
+    <form action="{% url 'menu:update_main' main.id %}" method="POST">
+      {% csrf_token %}
+      <h2>{{ main.name }}</h2>
+      {{ form }}
+      <button type="submit">Update</button>
+    </form>
+    {% endfor %} {% for dessert in dessert_list %}
+    <form action="{% url 'menu:update_dessert' dessert.id %}" method="POST">
+      {% csrf_token %}
+      <h2>{{ dessert.name }}</h2>
+      {{ form }}
+      <button type="submit">Update</button>
+    </form>
+    {% endfor %}
+  </body>
+</html>

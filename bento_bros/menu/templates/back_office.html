@@ -8,24 +8,41 @@
   <body>
     <h1><a href="../app">Appetizers</a></h1>
     {% for appetizer in app_records %}
-    <div>{{ appetizer.name }}</div>
-    <button
-      type="submit"
-      name="delete"
-      onclick="location.href='../delete_app/<int:appetizer_id>'"
-    >
-      Delete
-    </button>
+    <h2>{{ appetizer.name }} ${{ appetizer.price }}</h2>
+    <form action="{% url 'menu:delete_app' appetizer.id %}" method="POST">
+      {% csrf_token %}
+      <button type="submit" name="delete" value="DELETE">Delete</button>
+    </form>
+    <form action="{% url 'menu:update_app' appetizer.id %}" method="POST">
+      {% csrf_token %}
+      <button type="submit" name="delete" value="PUT">Edit</button>
+    </form>
     {% endfor %}
 
     <h1><a href="../main">Main Course</a></h1>
     {% for main_course in main_records %}
-    <div>{{ main_course.name }}</div>
+    <h2>{{ main_course.name }} ${{ main_course.price }}</h2>
+    <form action="{% url 'menu:delete_main' main_course.id %}" method="POST">
+      {% csrf_token %}
+      <button type="submit" name="delete" value="DELETE">Delete</button>
+    </form>
+    <form action="{% url 'menu:update_main' main_course.id %}" method="POST">
+      {% csrf_token %}
+      <button type="submit" name="delete" value="PUT">Edit</button>
+    </form>
     {% endfor %}
 
     <h1><a href="../dessert">Desserts</a></h1>
     {% for dessert in dessert_records %}
-    <div>{{ dessert.name }}</div>
+    <h2>{{ dessert.name }} ${{ dessert.price }}</h2>
+    <form action="{% url 'menu:delete_dessert' dessert.id %}" method="POST">
+      {% csrf_token %}
+      <button type="submit" name="delete" value="DELETE">Delete</button>
+    </form>
+    <form action="{% url 'menu:update_dessert' dessert.id %}" method="POST">
+      {% csrf_token %}
+      <button type="submit" name="delete" value="PUT">Edit</button>
+    </form>
     {% endfor %}
   </body>
 </html>

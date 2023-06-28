@@ -1,5 +1,7 @@
+from django.http import HttpResponseNotAllowed
 from django.shortcuts import render, get_object_or_404, redirect
 from menu.models import Appetizer, MainCourse, Dessert
+from menu.form import AppForm, MainForm, DessertForm
 
 # Create your views here.
 menu = [
@@ -147,12 +149,30 @@ def appetizer_records(request):
     return render(request, 'back_office.html', {"app_records": app_record})
 
 
-def delete_record(request, appetizer_id):
-    appetizer_record = get_object_or_404(Appetizer, id=appetizer_id)
+def delete_app(request, appetizer_record_id):
+    appetizer_record = get_object_or_404(Appetizer, id=appetizer_record_id)
 
-    if request.method == 'DELETE':
+    if request.method == 'POST':
         appetizer_record.delete()
-        return redirect('app/')
+        return render(request, 'back_office.html', {"deleted_item": appetizer_record})
+    else:
+        return HttpResponseNotAllowed(['POST'])
+
+
+def update_app(request, appetizer_record_id):
+    appetizer_record = get_object_or_404(Appetizer, id=appetizer_record_id)
+
+    if request.method == 'POST':
+        form = AppForm(request.POST, instance=appetizer_record)
+        if form.is_valid():
+            form.save()
+    else:
+        form = AppForm(instance=appetizer_record)
+    context = {
+        'form': form,
+        'app_list': Appetizer.objects.all()
+    }
+    return render(request, 'edit.html', context)
 
 
 def main_records(request):
@@ -160,9 +180,62 @@ def main_records(request):
     return render(request, 'back_office.html', {"main_records": main_record})
 
 
+def delete_main(request, main_record_id):
+    main_record = get_object_or_404(MainCourse, id=main_record_id)
+
+    if request.method == 'POST':
+        main_record.delete()
+        return render(request, 'back_office.html', {"deleted_item": main_record})
+    else:
+        return HttpResponseNotAllowed(['POST'])
+
+
+def update_main(request, main_record_id):
+    main_record = get_object_or_404(MainCourse, id=main_record_id)
+
+    if request.method == 'POST':
+        form = MainForm(request.POST, instance=main_record)
+        if form.is_valid():
+            form.save()
+    else:
+        form = MainForm(instance=main_record)
+    context = {
+        'form': form,
+        'main_list': MainCourse.objects.all()
+    }
+    return render(request, 'edit.html', context)
+
+
 def dessert_records(request):
     dessert_record = Dessert.objects.all()
     return render(request, 'back_office.html', {"dessert_records": dessert_record})
+
+
+def delete_dessert(request, dessert_record_id):
+    dessert_record = get_object_or_404(Dessert, id=dessert_record_id)
+
+    if request.method == 'POST':
+        dessert_record.delete()
+        # return redirect('')
+        return render(request, 'back_office.html', {"deleted_item": dessert_record})
+    else:
+        return HttpResponseNotAllowed(['POST'])
+
+
+def update_dessert(request, dessert_record_id):
+    dessert_record = get_object_or_404(Dessert, id=dessert_record_id)
+
+    if request.method == 'POST':
+        form = DessertForm(request.POST, instance=dessert_record)
+        if form.is_valid():
+            form.save()
+    else:
+        form = DessertForm(instance=dessert_record)
+    context = {
+        'form': form,
+        'dessert_list': Dessert.objects.all()
+    }
+    return render(request, 'edit.html', context)
 
 
 def seed(request):
